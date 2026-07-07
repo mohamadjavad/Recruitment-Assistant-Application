@@ -1,0 +1,17 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+
+  "instructions": [
+    ".cursor/rules/aamad-core.mdc",
+    ".cursor/rules/development-workflow.mdc",
+    ".cursor/rules/epics-index.mdc",
+    ".cursor/rules/adapter-registry.mdc"
+  ],
+  "default_agent": "project-mgr",
+  "agent": {
+    "dev-crew": {
+      "description": "Reference overview of the AAMAD development crew: product manager, system architect, project manager, frontend/backend/integration/QA engineers. Use for coordination and team-wide context.",
+      "mode": "subagent"
+    }
+  }
+}
