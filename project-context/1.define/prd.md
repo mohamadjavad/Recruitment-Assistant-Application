@@ -36,6 +36,7 @@ Deliver a production-ready MVP that demonstrates the power of multi-agent collab
 The MVP is a **chat-based recruitment assistant** that accepts a job description and produces a comprehensive candidate report through a multi-agent workflow.
 
 **In Scope (MVP):**
+
 - 4-agent sequential workflow (Researcher, Matcher, Communicator, Reporter)
 - Job description input via chat interface
 - Candidate research using web search and scraping
@@ -46,6 +47,7 @@ The MVP is a **chat-based recruitment assistant** that accepts a job description
 - Support for GLM-5.2 (via OpenAI-compatible endpoint) and local LLM alternatives
 
 **Out of Scope (MVP):**
+
 - ATS integration (Greenhouse, Lever, Workday)
 - LinkedIn direct integration (compliance risk)
 - Multi-role hiring (multiple job descriptions simultaneously)
@@ -58,13 +60,13 @@ The MVP is a **chat-based recruitment assistant** that accepts a job description
 
 ### 2.2 MVP Success Criteria
 
-| Criterion | Target | Measurement |
-|-----------|--------|-------------|
-| Time to Complete | < 5 minutes | End-to-end workflow execution |
+| Criterion                | Target                   | Measurement                     |
+| ------------------------ | ------------------------ | ------------------------------- |
+| Time to Complete         | < 5 minutes              | End-to-end workflow execution   |
 | Candidate Report Quality | 10+ qualified candidates | Recruiter review score >= 3.5/5 |
-| Outreach Response Rate | 20%+ improvement | Compared to manual outreach |
-| Time-to-Fill Reduction | 30%+ reduction | Compared to pre-tool baseline |
-| User Satisfaction | NPS >= 40 | Post-MVP survey |
+| Outreach Response Rate   | 20%+ improvement         | Compared to manual outreach     |
+| Time-to-Fill Reduction   | 30%+ reduction           | Compared to pre-tool baseline   |
+| User Satisfaction        | NPS >= 40                | Post-MVP survey                 |
 
 ---
 
@@ -73,22 +75,26 @@ The MVP is a **chat-based recruitment assistant** that accepts a job description
 ### 3.1 Primary User Stories
 
 #### US-01: Input Job Requirements
+
 **As a** Talent Acquisition VP  
 **I want to** input a job description through a chat interface  
 **So that** the system can begin the automated recruitment workflow
 
 **Acceptance Criteria:**
+
 - User can paste a job description in natural language or structured format
 - System parses and validates job requirements (title, description, requirements, qualifications)
 - System confirms receipt and begins workflow execution
 - Error handling for malformed or incomplete job descriptions
 
 #### US-02: Research Candidates
+
 **As a** recruiter  
 **I want the** Researcher agent to find 10+ qualified candidates  
 **So that** I have a diverse pool of potential hires to evaluate
 
 **Acceptance Criteria:**
+
 - Researcher agent searches web sources for matching candidates
 - Results include name, role, location, and brief profile
 - Candidates meet minimum job requirements
@@ -96,33 +102,39 @@ The MVP is a **chat-based recruitment assistant** that accepts a job description
 - Output is structured and reproducible
 
 #### US-03: Score and Rank Candidates
+
 **As a** recruiter  
 **I want the** Matcher agent to score candidates against job requirements  
 **So that** I can prioritize outreach to the best-fit candidates
 
 **Acceptance Criteria:**
+
 - Each candidate receives a score (1-100) with justification
 - Scoring considers: skills match, experience level, location, education
 - Candidates are ranked from highest to lowest score
 - Scoring methodology is transparent and auditable
 
 #### US-04: Generate Outreach Strategy
+
 **As a** recruiter  
 **I want the** Communicator agent to create outreach templates  
 **So that** I can engage candidates with personalized, professional messaging
 
 **Acceptance Criteria:**
+
 - Outreach templates are customizable per candidate tier
 - Templates include: initial contact, follow-up, and interview invitation
 - Tone and messaging align with employer brand
 - Templates are ready for immediate use
 
 #### US-05: View Final Report
+
 **As a** recruiter  
 **I want to** receive a comprehensive candidate report  
 **So that** I can make informed hiring decisions and share with hiring managers
 
 **Acceptance Criteria:**
+
 - Report includes: candidate profiles, scores, outreach strategies, summary
 - Report is formatted as markdown for easy sharing
 - Report is saved to a file for archival
@@ -131,22 +143,26 @@ The MVP is a **chat-based recruitment assistant** that accepts a job description
 ### 3.2 Secondary User Stories
 
 #### US-06: Configure Agent Parameters
+
 **As a** technical administrator  
 **I want to** modify agent roles, goals, and tools via YAML  
 **So that** the system can be customized for different industries and roles
 
 **Acceptance Criteria:**
+
 - Agent configurations are in `config/agents.yaml`
 - Task configurations are in `config/tasks.yaml`
 - Changes take effect on next workflow execution
 - Documentation explains configuration options
 
 #### US-07: Switch LLM Provider
+
 **As a** technical administrator  
 **I want to** switch between OpenAI and local LLMs  
 **So that** I can optimize for cost, privacy, or performance
 
 **Acceptance Criteria:**
+
 - LLM configuration is in `.env` or `crew.py`
 - Support for OpenAI, Ollama, LM Studio, and other LiteLLM-compatible providers
 - Fallback mechanism if primary LLM is unavailable
@@ -162,21 +178,21 @@ The MVP is a **chat-based recruitment assistant** that accepts a job description
 
 **Agents:**
 
-| Agent ID | Role | Goal | Tools |
-|----------|------|------|-------|
-| AGENT-01 | Job Candidate Researcher | Find potential candidates via web search | SerperDevTool, ScrapeWebsiteTool |
-| AGENT-02 | Candidate Matcher and Scorer | Score and rank candidates against requirements | SerperDevTool, ScrapeWebsiteTool |
-| AGENT-03 | Candidate Outreach Strategist | Develop engagement strategies and templates | SerperDevTool, ScrapeWebsiteTool |
-| AGENT-04 | Candidate Reporting Specialist | Compile recruiter-ready final report | None (synthesis only) |
+| Agent ID | Role                           | Goal                                           | Tools                            |
+| -------- | ------------------------------ | ---------------------------------------------- | -------------------------------- |
+| AGENT-01 | Job Candidate Researcher       | Find potential candidates via web search       | SerperDevTool, ScrapeWebsiteTool |
+| AGENT-02 | Candidate Matcher and Scorer   | Score and rank candidates against requirements | SerperDevTool, ScrapeWebsiteTool |
+| AGENT-03 | Candidate Outreach Strategist  | Develop engagement strategies and templates    | SerperDevTool, ScrapeWebsiteTool |
+| AGENT-04 | Candidate Reporting Specialist | Compile recruiter-ready final report           | None (synthesis only)            |
 
 **Tasks:**
 
-| Task ID | Agent | Input | Output |
-|---------|-------|-------|--------|
-| TASK-01 | AGENT-01 | Job requirements | List of 10+ candidate profiles |
+| Task ID | Agent    | Input                             | Output                            |
+| ------- | -------- | --------------------------------- | --------------------------------- |
+| TASK-01 | AGENT-01 | Job requirements                  | List of 10+ candidate profiles    |
 | TASK-02 | AGENT-02 | Job requirements + TASK-01 output | Ranked candidate list with scores |
 | TASK-03 | AGENT-03 | Job requirements + TASK-02 output | Outreach strategies and templates |
-| TASK-04 | AGENT-04 | All previous task outputs | Final comprehensive report |
+| TASK-04 | AGENT-04 | All previous task outputs         | Final comprehensive report        |
 
 **Process:** Sequential (TASK-01 → TASK-02 → TASK-03 → TASK-04)
 
@@ -185,6 +201,7 @@ The MVP is a **chat-based recruitment assistant** that accepts a job description
 **Description:** The system shall accept job descriptions in structured or natural language format.
 
 **Required Fields:**
+
 - Job title
 - Job description (minimum 100 characters)
 - Key responsibilities (minimum 3 items)
@@ -193,6 +210,7 @@ The MVP is a **chat-based recruitment assistant** that accepts a job description
 - Perks and benefits (optional)
 
 **Input Validation:**
+
 - Reject empty or incomplete job descriptions
 - Prompt user for missing required fields
 - Accept both YAML-formatted and natural language input
@@ -202,12 +220,14 @@ The MVP is a **chat-based recruitment assistant** that accepts a job description
 **Description:** The Researcher agent shall search for qualified candidates using available web tools.
 
 **Search Strategy:**
+
 - Use SerperDevTool for web search queries
 - Use ScrapeWebsiteTool to extract candidate information from profiles
 - Target professional networks, company websites, and public profiles
 - Collect: name, current role, location, skills summary, profile URL
 
 **Quality Requirements:**
+
 - Minimum 10 candidates per search
 - No duplicate candidates
 - Candidates must meet minimum 3 of 5 required qualifications
@@ -219,15 +239,16 @@ The MVP is a **chat-based recruitment assistant** that accepts a job description
 
 **Scoring Dimensions:**
 
-| Dimension | Weight | Scoring Criteria |
-|-----------|--------|------------------|
-| Skills Match | 40% | Required skills present in profile |
-| Experience Level | 25% | Years and relevance of experience |
-| Education | 15% | Degree and field of study |
-| Location | 10% | Geographic match to job location |
-| Additional Factors | 10% | Certifications, publications, awards |
+| Dimension          | Weight | Scoring Criteria                     |
+| ------------------ | ------ | ------------------------------------ |
+| Skills Match       | 40%    | Required skills present in profile   |
+| Experience Level   | 25%    | Years and relevance of experience    |
+| Education          | 15%    | Degree and field of study            |
+| Location           | 10%    | Geographic match to job location     |
+| Additional Factors | 10%    | Certifications, publications, awards |
 
 **Scoring Output:**
+
 - Overall score: 0-100
 - Dimension scores with justification
 - Confidence level (high/medium/low)
@@ -238,6 +259,7 @@ The MVP is a **chat-based recruitment assistant** that accepts a job description
 **Description:** The Communicator agent shall develop personalized outreach strategies for top candidates.
 
 **Output Components:**
+
 - Initial contact email/message template
 - Follow-up sequence (2-3 messages)
 - Interview invitation template
@@ -245,6 +267,7 @@ The MVP is a **chat-based recruitment assistant** that accepts a job description
 - Recommended outreach channel (email, LinkedIn, etc.)
 
 **Template Requirements:**
+
 - Professional tone aligned with employer brand
 - Mobile-friendly formatting
 - Clear call-to-action
@@ -255,16 +278,20 @@ The MVP is a **chat-based recruitment assistant** that accepts a job description
 **Description:** The Reporter agent shall compile a comprehensive recruiter-ready report.
 
 **Report Structure:**
+
 ```markdown
 # Candidate Report: [Job Title]
 
 ## Executive Summary
+
 - Total candidates found: [N]
 - Top candidates: [N]
 - Recommended next steps
 
 ## Candidate Profiles
+
 ### 1. [Candidate Name] — Score: [N/100]
+
 - Current Role
 - Location
 - Key Skills
@@ -273,14 +300,19 @@ The MVP is a **chat-based recruitment assistant** that accepts a job description
 - Outreach Strategy
 
 ### 2. [Candidate Name] — Score: [N/100]
+
 ...
 
 ## Outreach Templates
+
 ### Initial Contact
+
 ### Follow-up Sequence
+
 ### Interview Invitation
 
 ## Methodology
+
 - Research approach
 - Scoring criteria
 - Agent reasoning traces
@@ -293,12 +325,14 @@ The MVP is a **chat-based recruitment assistant** that accepts a job description
 **Description:** The system shall provide a chat-based interface for user interaction.
 
 **MVP Interface:**
+
 - Command-line interface for input/output
 - Structured prompts for job description input
 - Progress indicators during agent execution
 - Formatted report display upon completion
 
 **Future Interface (Post-MVP):**
+
 - Web-based chat UI (Next.js + assistant-ui)
 - Real-time agent progress streaming
 - Interactive report viewing and export
@@ -309,6 +343,7 @@ The MVP is a **chat-based recruitment assistant** that accepts a job description
 **Description:** The system shall be configurable via YAML files and environment variables.
 
 **Configuration Files:**
+
 - `config/agents.yaml` — Agent roles, goals, backstories
 - `config/tasks.yaml` — Task descriptions, expected outputs
 - `.env` — API keys, LLM settings, tool configurations
@@ -316,13 +351,13 @@ The MVP is a **chat-based recruitment assistant** that accepts a job description
 
 **Environment Variables:**
 
-| Variable | Required | Default | Description |
-|----------|----------|---------|-------------|
-| OPENAI_API_KEY | Yes (if using OpenAI-compatible API) | — | API key for OpenAI-compatible endpoint (e.g., https://api.iamhc.cn) |
-| SERPER_API_KEY | Yes | — | Serper.dev API key |
-| LI_AT | No | — | LinkedIn session cookie (demo only) |
-| LLM_MODEL | No | glm-5.2 | LLM model identifier |
-| LLM_BASE_URL | No | https://api.iamhc.cn | Custom LLM endpoint (OpenAI-compatible, Ollama, etc.) |
+| Variable       | Required                             | Default              | Description                                                         |
+| -------------- | ------------------------------------ | -------------------- | ------------------------------------------------------------------- |
+| OPENAI_API_KEY | Yes (if using OpenAI-compatible API) | —                    | API key for OpenAI-compatible endpoint (e.g., https://api.iamhc.cn) |
+| SERPER_API_KEY | Yes                                  | —                    | Serper.dev API key                                                  |
+| LI_AT          | No                                   | —                    | LinkedIn session cookie (demo only)                                 |
+| LLM_MODEL      | No                                   | glm-5.2              | LLM model identifier                                                |
+| LLM_BASE_URL   | No                                   | https://api.iamhc.cn | Custom LLM endpoint (OpenAI-compatible, Ollama, etc.)               |
 
 ---
 
@@ -330,48 +365,48 @@ The MVP is a **chat-based recruitment assistant** that accepts a job description
 
 ### 5.1 Performance (NFR-001)
 
-| Metric | Target |
-|--------|--------|
-| End-to-end execution time | < 5 minutes |
-| Agent task completion time | < 90 seconds per task |
-| Concurrent workflow support | 1 user (MVP) |
-| Report generation time | < 30 seconds |
+| Metric                      | Target                |
+| --------------------------- | --------------------- |
+| End-to-end execution time   | < 5 minutes           |
+| Agent task completion time  | < 90 seconds per task |
+| Concurrent workflow support | 1 user (MVP)          |
+| Report generation time      | < 30 seconds          |
 
 ### 5.2 Reliability (NFR-002)
 
-| Metric | Target |
-|--------|--------|
-| Workflow completion rate | >= 95% |
-| Agent error recovery | Graceful fallback on tool failure |
-| LLM timeout handling | Retry with exponential backoff |
-| Data validation | Schema validation on all outputs |
+| Metric                   | Target                            |
+| ------------------------ | --------------------------------- |
+| Workflow completion rate | >= 95%                            |
+| Agent error recovery     | Graceful fallback on tool failure |
+| LLM timeout handling     | Retry with exponential backoff    |
+| Data validation          | Schema validation on all outputs  |
 
 ### 5.3 Security (NFR-003)
 
-| Requirement | Implementation |
-|-------------|----------------|
-| API key storage | Environment variables, never in code |
+| Requirement             | Implementation                             |
+| ----------------------- | ------------------------------------------ |
+| API key storage         | Environment variables, never in code       |
 | Candidate data handling | Local processing only, no external storage |
-| LLM data privacy | Support local LLM deployment |
-| Audit trail | Agent reasoning traces logged |
+| LLM data privacy        | Support local LLM deployment               |
+| Audit trail             | Agent reasoning traces logged              |
 
 ### 5.4 Usability (NFR-004)
 
-| Requirement | Implementation |
-|-------------|----------------|
-| Setup time | < 15 minutes for technical users |
-| Learning curve | < 30 minutes to first workflow run |
-| Error messages | Clear, actionable guidance |
-| Documentation | README, inline comments, architecture docs |
+| Requirement    | Implementation                             |
+| -------------- | ------------------------------------------ |
+| Setup time     | < 15 minutes for technical users           |
+| Learning curve | < 30 minutes to first workflow run         |
+| Error messages | Clear, actionable guidance                 |
+| Documentation  | README, inline comments, architecture docs |
 
 ### 5.5 Extensibility (NFR-005)
 
-| Requirement | Implementation |
-|-------------|----------------|
-| Tool addition | Custom tools via Python classes |
-| Agent addition | YAML config + Python decorator |
-| LLM switching | LiteLLM-compatible providers |
-| Output formats | Configurable output files |
+| Requirement    | Implementation                  |
+| -------------- | ------------------------------- |
+| Tool addition  | Custom tools via Python classes |
+| Agent addition | YAML config + Python decorator  |
+| LLM switching  | LiteLLM-compatible providers    |
+| Output formats | Configurable output files       |
 
 ---
 
@@ -412,17 +447,17 @@ The MVP is a **chat-based recruitment assistant** that accepts a job description
 
 ### 6.2 Technology Stack
 
-| Component | Technology | Version |
-|-----------|-----------|---------|
-| Runtime Framework | CrewAI | >=1.15.1 |
-| Language | Python | >=3.10, <3.14 |
-| Dependency Manager | uv | Latest |
-| LLM Provider | GLM-5.2 (via OpenAI-compatible endpoint) | Default |
-| LLM Alternative | Ollama / LM Studio | Supported |
-| Web Search | SerperDevTool | Via crewai_tools |
-| Web Scraping | ScrapeWebsiteTool | Via crewai_tools |
-| Configuration | YAML | PyYAML |
-| Package Manager | uv / poetry | uv preferred |
+| Component          | Technology                               | Version          |
+| ------------------ | ---------------------------------------- | ---------------- |
+| Runtime Framework  | CrewAI                                   | >=1.15.1         |
+| Language           | Python                                   | >=3.10, <3.14    |
+| Dependency Manager | uv                                       | Latest           |
+| LLM Provider       | GLM-5.2 (via OpenAI-compatible endpoint) | Default          |
+| LLM Alternative    | Ollama / LM Studio                       | Supported        |
+| Web Search         | SerperDevTool                            | Via crewai_tools |
+| Web Scraping       | ScrapeWebsiteTool                        | Via crewai_tools |
+| Configuration      | YAML                                     | PyYAML           |
+| Package Manager    | uv / poetry                              | uv preferred     |
 
 ### 6.3 Project Structure
 
@@ -497,7 +532,7 @@ reporter:
 
 ### 6.5 Task Configuration (tasks.yaml)
 
-```yaml
+````yaml
 research_candidates_task:
   description: >
     Conduct thorough research to find potential candidates for the specified job.
@@ -544,7 +579,7 @@ report_candidates_task:
   expected_output: >
     A detailed report with the best candidates to pursue, including profiles,
     scores, and outreach strategies. Formatted as markdown without '```'.
-```
+````
 
 ---
 
@@ -552,50 +587,50 @@ report_candidates_task:
 
 ### 7.1 Epic 1: Core Workflow Engine
 
-| Feature ID | Feature | Priority | Effort |
-|------------|---------|----------|--------|
-| F-001 | CrewAI project scaffolding | P0 | 2 days |
-| F-002 | Agent configuration (4 agents) | P0 | 1 day |
-| F-003 | Task configuration (4 tasks) | P0 | 1 day |
-| F-004 | Sequential process orchestration | P0 | 1 day |
-| F-005 | Input validation and parsing | P0 | 1 day |
-| F-006 | Output file generation | P0 | 1 day |
+| Feature ID | Feature                          | Priority | Effort |
+| ---------- | -------------------------------- | -------- | ------ |
+| F-001      | CrewAI project scaffolding       | P0       | 2 days |
+| F-002      | Agent configuration (4 agents)   | P0       | 1 day  |
+| F-003      | Task configuration (4 tasks)     | P0       | 1 day  |
+| F-004      | Sequential process orchestration | P0       | 1 day  |
+| F-005      | Input validation and parsing     | P0       | 1 day  |
+| F-006      | Output file generation           | P0       | 1 day  |
 
 ### 7.2 Epic 2: Agent Tools
 
-| Feature ID | Feature | Priority | Effort |
-|------------|---------|----------|--------|
-| F-010 | SerperDevTool integration | P0 | 0.5 days |
-| F-011 | ScrapeWebsiteTool integration | P0 | 0.5 days |
-| F-012 | Custom tool framework | P1 | 1 day |
-| F-013 | Tool error handling | P1 | 0.5 days |
+| Feature ID | Feature                       | Priority | Effort   |
+| ---------- | ----------------------------- | -------- | -------- |
+| F-010      | SerperDevTool integration     | P0       | 0.5 days |
+| F-011      | ScrapeWebsiteTool integration | P0       | 0.5 days |
+| F-012      | Custom tool framework         | P1       | 1 day    |
+| F-013      | Tool error handling           | P1       | 0.5 days |
 
 ### 7.3 Epic 3: User Interface
 
-| Feature ID | Feature | Priority | Effort |
-|------------|---------|----------|--------|
-| F-020 | CLI input interface | P0 | 1 day |
-| F-021 | Progress indicators | P1 | 0.5 days |
-| F-022 | Report display formatting | P1 | 0.5 days |
-| F-023 | Web chat UI (Next.js) | P1 | 5 days |
+| Feature ID | Feature                   | Priority | Effort   |
+| ---------- | ------------------------- | -------- | -------- |
+| F-020      | CLI input interface       | P0       | 1 day    |
+| F-021      | Progress indicators       | P1       | 0.5 days |
+| F-022      | Report display formatting | P1       | 0.5 days |
+| F-023      | Web chat UI (Next.js)     | P1       | 5 days   |
 
 ### 7.4 Epic 4: Configuration & Deployment
 
-| Feature ID | Feature | Priority | Effort |
-|------------|---------|----------|--------|
-| F-030 | YAML configuration system | P0 | 0.5 days |
-| F-031 | Environment variable management | P0 | 0.5 days |
-| F-032 | LLM provider switching | P1 | 1 day |
-| F-033 | Docker containerization | P2 | 1 day |
+| Feature ID | Feature                         | Priority | Effort   |
+| ---------- | ------------------------------- | -------- | -------- |
+| F-030      | YAML configuration system       | P0       | 0.5 days |
+| F-031      | Environment variable management | P0       | 0.5 days |
+| F-032      | LLM provider switching          | P1       | 1 day    |
+| F-033      | Docker containerization         | P2       | 1 day    |
 
 ### 7.5 Epic 5: Quality & Testing
 
-| Feature ID | Feature | Priority | Effort |
-|------------|---------|----------|--------|
-| F-040 | Unit tests for tools | P1 | 1 day |
-| F-041 | Integration tests for workflow | P1 | 1 day |
-| F-042 | End-to-end workflow test | P1 | 1 day |
-| F-043 | Performance benchmarks | P2 | 0.5 days |
+| Feature ID | Feature                        | Priority | Effort   |
+| ---------- | ------------------------------ | -------- | -------- |
+| F-040      | Unit tests for tools           | P1       | 1 day    |
+| F-041      | Integration tests for workflow | P1       | 1 day    |
+| F-042      | End-to-end workflow test       | P1       | 1 day    |
+| F-043      | Performance benchmarks         | P2       | 0.5 days |
 
 ---
 
@@ -608,23 +643,23 @@ report_candidates_task:
 
 **Milestones:**
 
-| Milestone | Duration | Deliverables |
-|-----------|----------|--------------|
-| M1: Project Setup | Day 1-2 | Scaffolding, dependencies, configuration |
-| M2: Agent Implementation | Day 3-5 | 4 agents with tools, YAML configs |
-| M3: Workflow Integration | Day 6-8 | Sequential process, input/output flow |
-| M4: CLI Interface | Day 9-10 | User input, progress display, report output |
-| M5: Testing & Polish | Day 11-14 | Tests, documentation, bug fixes |
+| Milestone                | Duration  | Deliverables                                |
+| ------------------------ | --------- | ------------------------------------------- |
+| M1: Project Setup        | Day 1-2   | Scaffolding, dependencies, configuration    |
+| M2: Agent Implementation | Day 3-5   | 4 agents with tools, YAML configs           |
+| M3: Workflow Integration | Day 6-8   | Sequential process, input/output flow       |
+| M4: CLI Interface        | Day 9-10  | User input, progress display, report output |
+| M5: Testing & Polish     | Day 11-14 | Tests, documentation, bug fixes             |
 
 ### 8.2 Post-MVP Releases
 
-| Version | Features | Target |
-|---------|----------|--------|
-| v0.2.0 | Web chat UI (Next.js + assistant-ui) | Month 2 |
-| v0.3.0 | ATS integration (Greenhouse, Lever) | Month 3 |
-| v0.4.0 | Multi-role hiring support | Month 4 |
-| v0.5.0 | Analytics dashboard | Month 5 |
-| v1.0.0 | Production-ready with auth, multi-tenancy | Month 6 |
+| Version | Features                                  | Target  |
+| ------- | ----------------------------------------- | ------- |
+| v0.2.0  | Web chat UI (Next.js + assistant-ui)      | Month 2 |
+| v0.3.0  | ATS integration (Greenhouse, Lever)       | Month 3 |
+| v0.4.0  | Multi-role hiring support                 | Month 4 |
+| v0.5.0  | Analytics dashboard                       | Month 5 |
+| v1.0.0  | Production-ready with auth, multi-tenancy | Month 6 |
 
 ---
 
@@ -632,21 +667,21 @@ report_candidates_task:
 
 ### 9.1 External Dependencies
 
-| Dependency | Type | Version | Notes |
-|------------|------|---------|-------|
-| CrewAI | Framework | >=1.15.1 | Core orchestration |
-| GLM-5.2 (OpenAI-compatible API) | LLM | glm-5.2 | Default model |
-| Serper.dev | Web Search | API key required | Free tier available |
-| Python | Runtime | >=3.10, <3.14 | Required by CrewAI |
+| Dependency                      | Type       | Version          | Notes               |
+| ------------------------------- | ---------- | ---------------- | ------------------- |
+| CrewAI                          | Framework  | >=1.15.1         | Core orchestration  |
+| GLM-5.2 (OpenAI-compatible API) | LLM        | glm-5.2          | Default model       |
+| Serper.dev                      | Web Search | API key required | Free tier available |
+| Python                          | Runtime    | >=3.10, <3.14    | Required by CrewAI  |
 
 ### 9.2 Internal Dependencies
 
-| Dependency | Source | Notes |
-|------------|--------|-------|
-| AAMAD Framework | project-context/ | Phase 1 artifacts |
-| System Architecture | @system.arch | SAD document (Phase 2) |
-| Frontend UI | @frontend.eng | Chat interface (Phase 2) |
-| Backend API | @backend.eng | CrewAI backend (Phase 2) |
+| Dependency          | Source           | Notes                    |
+| ------------------- | ---------------- | ------------------------ |
+| AAMAD Framework     | project-context/ | Phase 1 artifacts        |
+| System Architecture | @system.arch     | SAD document (Phase 2)   |
+| Frontend UI         | @frontend.eng    | Chat interface (Phase 2) |
+| Backend API         | @backend.eng     | CrewAI backend (Phase 2) |
 
 ---
 
@@ -664,13 +699,13 @@ report_candidates_task:
 
 ## 11. Risks
 
-| Risk | Impact | Mitigation | Owner |
-|------|--------|------------|-------|
-| LLM API rate limits | Workflow delays | Implement retry with backoff | @backend.eng |
-| Serper.dev API costs | Budget overrun | Monitor usage, implement caching | @project.mgr |
-| Agent hallucination | Inaccurate candidates | Structured output validation | @qa.eng |
-| Tool failures | Incomplete reports | Graceful degradation, fallback | @backend.eng |
-| Scope creep | MVP delay | Strict adherence to PRD scope | @product-mgr |
+| Risk                 | Impact                | Mitigation                       | Owner        |
+| -------------------- | --------------------- | -------------------------------- | ------------ |
+| LLM API rate limits  | Workflow delays       | Implement retry with backoff     | @backend.eng |
+| Serper.dev API costs | Budget overrun        | Monitor usage, implement caching | @project.mgr |
+| Agent hallucination  | Inaccurate candidates | Structured output validation     | @qa.eng      |
+| Tool failures        | Incomplete reports    | Graceful degradation, fallback   | @backend.eng |
+| Scope creep          | MVP delay             | Strict adherence to PRD scope    | @product-mgr |
 
 ---
 
@@ -678,42 +713,42 @@ report_candidates_task:
 
 ### 12.1 Product Metrics
 
-| Metric | MVP Target | Measurement |
-|--------|------------|-------------|
-| Workflow completion rate | >= 95% | Successful runs / total runs |
-| Report generation time | < 5 minutes | Average end-to-end time |
-| Candidate quality score | >= 3.5/5 | Recruiter review rating |
-| User satisfaction (NPS) | >= 40 | Post-usage survey |
-| Time-to-fill reduction | >= 30% | Compared to baseline |
+| Metric                   | MVP Target  | Measurement                  |
+| ------------------------ | ----------- | ---------------------------- |
+| Workflow completion rate | >= 95%      | Successful runs / total runs |
+| Report generation time   | < 5 minutes | Average end-to-end time      |
+| Candidate quality score  | >= 3.5/5    | Recruiter review rating      |
+| User satisfaction (NPS)  | >= 40       | Post-usage survey            |
+| Time-to-fill reduction   | >= 30%      | Comred to baseline           |
 
 ### 12.2 Technical Metrics
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Test coverage | >= 80% | Unit + integration tests |
-| Documentation completeness | 100% | All features documented |
-| Setup time | < 15 minutes | First-time user onboarding |
-| Error rate | < 5% | Failed workflow runs |
+| Metric                     | Target       | Measurement                |
+| -------------------------- | ------------ | -------------------------- |
+| Test coverage              | >= 80%       | Unit + integration tests   |
+| Documentation completeness | 100%         | All features documented    |
+| Setup time                 | < 15 minutes | First-time user onboarding |
+| Error rate                 | < 5%         | Failed workflow runs       |
 
 ---
 
 ## 13. Open Questions
 
 1. **Web UI Priority**: Should the web chat UI be included in MVP or deferred?
-   - *Recommendation:* Defer to v0.2.0; MVP focuses on CLI workflow.
+   - _Recommendation:_ Defer to v0.2.0; MVP focuses on CLI workflow.
 
 2. **LLM Model Selection**: Should we support multiple LLM providers in MVP or focus on GLM-5.2?
-   - *Recommendation:* Support GLM-5.2 (OpenAI-compatible) + Ollama in MVP; extend to other providers post-MVP.
+   - _Recommendation:_ Support GLM-5.2 (OpenAI-compatible) + Ollama in MVP; extend to other providers post-MVP.
 
 3. **Compliance Requirements**: What level of GDPR/EEOC compliance is required for MVP?
-   - *Recommendation:* Document compliance gaps; address in v0.3.0+.
+   - _Recommendation:_ Document compliance gaps; address in v0.3.0+.
 
 4. **Pricing Model**: Should the MVP be free/open-source or include a commercial tier?
-   - *Recommendation:* Free/open-source; commercial features in enterprise tier.
+   - _Recommendation:_ Free/open-source; commercial features in enterprise tier.
 
 ---
 
-## 14. Appendices
+## 14. Appendicespa
 
 ### Appendix A: CrewAI Reference
 
@@ -758,4 +793,4 @@ task_name:
 
 ---
 
-*This PRD defines the MVP scope for the Recruitment Assistant application. Technical implementation details will be defined in the System Architecture Document (SAD) during AAMAD Phase 2.*
+_This PRD defines the MVP scope for the Recruitment Assistant application. Technical implementation details will be defined in the System Architecture Document (SAD) during AAMAD Phase 2._

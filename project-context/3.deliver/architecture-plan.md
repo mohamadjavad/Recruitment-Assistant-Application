@@ -305,55 +305,92 @@ This Architecture Plan translates the System Architecture Document (SAD) into an
 ### Step 5: Quality Assurance
 
 **Owner:** @qa.eng  
-**Status:** ✅ COMPLETED  
-**Start Date:** Jul 8, 2026  
-**End Date:** Jul 8, 2026  
+**Status:** PENDING  
 **Estimated Effort:** Day 11-14 (PRD §8.1, M5)
 
-**Tasks Completed:**
-1. ✅ Unit tests — 95 tests across 13 classes (PRD §7.5, F-040)
-2. ✅ Integration tests — 66 tests across 14 classes (PRD §7.5, F-041)
-3. ✅ Edge case tests — 54 tests across 10 classes
-4. ✅ End-to-end test — Real GLM-5.2 execution, 59,844-char report, 541s (PRD §7.5, F-042)
-5. ✅ Quality gates — 221/221 tests pass (~85% coverage vs 80% target, PRD §12.2)
-6. ✅ Manual E2E — Full workflow with real API calls verified
+**Tasks:**
+
+1. Unit tests (PRD §7.5, F-040):
+   - Test input validation logic
+   - Test agent configuration loading
+   - Test task configuration loading
+   - Test report formatting
+   - Test error handling paths
+
+2. Integration tests (PRD §7.5, F-041):
+   - Test agent workflow execution
+   - Test task dependency chain
+   - Test context passing between agents
+   - Test tool error handling
+
+3. End-to-end test (PRD §7.5, F-042):
+   - Run complete workflow with sample input
+   - Verify report quality
+   - Measure execution time
+
+4. Performance benchmarks (PRD §7.5, F-043):
+   - Benchmark each task execution time
+   - Benchmark total workflow time
+   - Identify bottlenecks
+
+5. Quality gates:
+   - All tests pass
+   - Linting passes (ruff)
+   - Type checking passes (mypy)
+   - Documentation complete
+
+**Completion Criteria:**
+- Test coverage >= 80% (PRD §12.2)
+- All tests pass
+- No linting errors
+- Performance within targets
 
 ---
 
 ### Step 6: Local MVP Launch
 
 **Owner:** @project.mgr  
-**Status:** ✅ COMPLETED  
-**Start Date:** Jul 8, 2026  
-**End Date:** Jul 8, 2026  
+**Status:** PENDING  
 **Estimated Effort:** Day 14 (PRD §8.1, M5)
 
-**Tasks Completed:**
-1. ✅ Final README review and update
-2. ✅ `.env.example` completeness verified
-3. ✅ Setup time < 15 minutes verified (PRD §5.4)
-4. ✅ Complete workflow demo executed (real GLM-5.2, 59,844-char report)
-5. ✅ Execution logs captured (541s, 4 agents, 19-section report)
-6. ✅ LICENSE file created (MIT)
-7. ✅ v0.1.0 release tagged
+**Tasks:**
+1. Final README review and update
+2. Verify `.env.example` completeness
+3. Verify setup time < 15 minutes (PRD §5.4)
+4. Run complete workflow demo
+5. Capture execution logs for documentation
+6. Tag v0.1.0 release (internal)
+
+**Completion Criteria:**
+- Fresh setup completes in < 15 minutes
+- Workflow executes successfully with sample input
+- Report is generated and formatted correctly
+- All documentation is complete
 
 ---
 
 ### Step 7: Prepare for Next Phase
 
 **Owner:** @project.mgr  
-**Status:** ✅ COMPLETED  
-**Start Date:** Jul 8, 2026  
-**End Date:** Jul 8, 2026  
+**Status:** PENDING  
 **Estimated Effort:** Included in M5
 
-**Tasks Completed:**
-1. ✅ Post-MVP roadmap documented (v0.2.0 → v0.3.0 → v0.4.0 → v0.5.0 → v1.0.0)
-2. ✅ Technical debt documented (technical-debt.md in 3.deliver/)
-3. ✅ Phase 3 outline created (phase-3-outline.md in 3.deliver/)
-4. ✅ MVP artifacts archived to project-context/3.deliver/
-5. ✅ Known issues documented (QA-01 through QA-04)
-6. ✅ Deferred features listed with priority order
+**Tasks:**
+1. Document post-MVP roadmap (PRD §8.2):
+   - v0.2.0: Web chat UI (Next.js + assistant-ui)
+   - v0.3.0: ATS integration (Greenhouse, Lever)
+   - v0.4.0: Multi-role hiring support
+   - v0.5.0: Analytics dashboard
+   - v1.0.0: Production-ready with auth, multi-tenancy
+
+2. Document lessons learned
+3. Identify technical debt from MVP
+4. Prepare AAMAD Phase 3 deliverables outline
+
+**Completion Criteria:**
+- Post-MVP roadmap documented
+- Technical debt list created
+- Phase 3 outline prepared
 
 ---
 

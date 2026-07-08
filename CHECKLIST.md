@@ -92,27 +92,27 @@ This checklist guides you step-by-step through running AAMAD from Phase 1 (Defin
 
 ### Step 5: Quality Assurance (`@qa.eng`)
 
-- [ ] Open a Cursor agent chat as `@qa.eng`
-- [ ] Run `*qa`
-  - [ ] Perform smoke tests and functional tests on chat flow
-  - [ ] Verify frontend and backend are connected
-  - [ ] Log issues, known gaps, and future work in qa.md
+- [x] Open a Cursor agent chat as `@qa.eng`
+- [x] Run `*qa`
+  - [x] Perform smoke tests and functional tests on chat flow
+  - [x] Verify frontend and backend are connected
+  - [x] Log issues, known gaps, and future work in qa.md
 
 ---
 
 ### Step 6: Local MVP Launch
 
-- [ ] Follow docs in setup.md and integration.md to run the full MVP locally
-- [ ] Confirm MVP chat use case works end-to-end
-- [ ] Review all generated artifact files in project-context/2.build
+- [x] Follow docs in setup.md and integration.md to run the full MVP locally
+- [x] Confirm MVP chat use case works end-to-end
+- [x] Review all generated artifact files in project-context/2.build
 
 ---
 
 ### Step 7: Prepare for Next Phase
 
-- [ ] Archive all MVP milestone artifacts in project-context/2.build and 3.deliver
-- [ ] List all deferred/backlog features in qa.md and/or as GitHub issues
-- [ ] Share repo and context docs with team or community for feedback
+- [x] Archive all MVP milestone artifacts in project-context/2.build and 3.deliver
+- [x] List all deferred/backlog features in qa.md and/or as GitHub issues
+- [x] Share repo and context docs with team or community for feedback
 
 ---
 
