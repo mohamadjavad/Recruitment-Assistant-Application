@@ -1,469 +1,146 @@
-# Environment Setup - Step 1
+# v0.2.0 — Web Chat UI Project Setup
 
-## Recruitment Assistant - Project Setup
-
-**Document Version:** 1.0  
 **Date:** July 8, 2026  
-**Owner:** @project.mgr (AAMAD Phase 2 — Build)  
-**Status:** COMPLETED  
-**Estimated Effort:** Day 1-2 (PRD §8.1, M1)
+**Agent:** @project-mgr  
+**Status:** Scaffold complete — ready for implementation agents  
 
 ---
 
-## 1. Tasks Completed
+## Overview
 
-### 1.1 Project Directory Structure ✅
+This scaffold implements **v0.2.0 (Web Chat UI)** as defined in SAD v2 §3. The Next.js application is placed alongside the existing Python CLI backend (recruitment-assistant/) in a Strangler Fig pattern — no existing Python files were modified.
 
-Created the complete project structure per PRD §6.3:
+## Files Created
 
-```
-recruitment-assistant/
-├── src/recruitment/
-│   ├── __init__.py
-│   ├── main.py
-│   ├── crew.py
-│   ├── config/
-│   │   ├── agents.yaml
-│   │   └── tasks.yaml
-│   └── tools/
-│       ├── __init__.py
-│       └── custom_tools.py
-├── tests/
-├── .env.example
-├── .gitignore
-├── pyproject.toml
-└── README.md
-```
+### Root-level
 
-**Verification:**
-- All directories created successfully
-- All files created with proper content
-- Project structure matches PRD §6.3 exactly
+| File | Purpose |
+|------|---------|
+| `.env.example` | Environment variable template with all required keys (OPENAI_API_KEY, SERPER_API_KEY, GLM_API_KEY, GLM_BASE_URL, NEXT_PUBLIC_APP_URL, LLM_MODEL, etc.) |
+| `.gitignore` | Updated with Node.js / Next.js entries (node_modules/, .next/, etc.) |
 
-### 1.2 pyproject.toml Initialization ✅
-
-Initialized `pyproject.toml` with all required dependencies:
-
-**Core Dependencies:**
-- `crewai[tools]>=1.15.1` - CrewAI framework with tools
-- `pyyaml>=6.0` - YAML configuration parsing
-- `python-dotenv>=1.0.0` - Environment variable management
-- `rich>=13.0.0` - CLI formatting and display
-
-**Dev Dependencies:**
-- `pytest>=7.0.0` - Testing framework
-- `pytest-asyncio>=0.21.0` - Async test support
-- `ruff>=0.1.0` - Code linting
-- `mypy>=1.0.0` - Type checking
-
-**Configuration:**
-- Package name: `recruitment-assistant`
-- Version: `0.1.0`
-- Python requirement: `>=3.10,<3.14`
-- Entry point: `recruitment = "recruitment.main:main"`
-- Build backend: `setuptools.build_meta`
-
-### 1.3 .env.example Creation ✅
-
-Created `.env.example` with all required variables per PRD §4.8:
-
-```env
-# Required Variables
-OPENAI_API_KEY=your_api_key_here           # API key for GLM-5.2 via https://api.iamhc.cn
-SERPER_API_KEY=your_serper_api_key_here
-
-# Optional Variables
-LLM_MODEL=glm-5.2                          # Default: glm-5.2
-LLM_BASE_URL=https://api.iamhc.cn/v1       # OpenAI-compatible endpoint for GLM-5.2
-LI_AT=your_linkedin_session_cookie_here
-LOG_LEVEL=INFO
-OUTPUT_DIR=./reports
-```
-
-### 1.4 .gitignore Creation ✅
-
-Created `.gitignore` with standard Python patterns plus:
-- `.env` - Environment variables (secrets)
-- `__pycache__/` - Python bytecode
-- `.venv/` - Virtual environments
-- `.pytest_cache/` - Test cache
-- `candidate_report.md` - Generated reports
-- `reports/` - Output directory
-
-### 1.5 config/agents.yaml Creation ✅
-
-Created agent definitions per PRD §6.4:
-
-**Agents Configured:**
-1. **researcher** - Job Candidate Researcher
-   - Role: Find potential candidates via web search
-   - Goal: Find potential candidates for the job
-   - Backstory: Adept at finding the right candidates
-
-2. **matcher** - Candidate Matcher and Scorer
-   - Role: Match candidates to jobs and score them
-   - Goal: Match the candidates to the best jobs and score them
-   - Backstory: Knack for matching using advanced algorithms
-
-3. **communicator** - Candidate Outreach Strategist
-   - Role: Develop outreach strategies
-   - Goal: Develop outreach strategies for selected candidates
-   - Backstory: Skilled at creating effective outreach strategies
-
-4. **reporter** - Candidate Reporting Specialist
-   - Role: Report best candidates to recruiters
-   - Goal: Report the best candidates to the recruiters
-   - Backstory: Proficient at compiling detailed reports
-
-### 1.6 config/tasks.yaml Creation ✅
-
-Created task definitions per PRD §6.5:
-
-**Tasks Configured:**
-1. **research_candidates_task** - Research candidates
-   - Input: Job requirements
-   - Output: List of 10 potential candidates
-
-2. **match_and_score_candidates_task** - Score candidates
-   - Input: Job requirements + research output
-   - Output: Ranked list with scores
-
-3. **outreach_strategy_task** - Generate outreach strategy
-   - Input: Job requirements + scored candidates
-   - Output: Outreach methods and templates
-
-4. **report_candidates_task** - Compile final report
-   - Input: All previous outputs
-   - Output: Comprehensive markdown report
-
-### 1.7 README.md Creation ✅
-
-Created comprehensive README with:
-- Project overview and features
-- Prerequisites (Python, uv, API keys)
-- Quick start guide (< 15 minutes per PRD §5.4)
-- Configuration instructions
-- Usage examples
-- Development guide
-- Troubleshooting section
-- Roadmap (post-MVP releases)
-
-### 1.8 Stub Files Creation ✅
-
-Created stub files with placeholder code:
-
-**src/recruitment/__init__.py:**
-- Package initialization
-- Version information
-- Author information
-
-**src/recruitment/main.py:**
-- CLI interface structure
-- Input validation logic
-- Job description collection
-- Report display functionality
-- Placeholder for workflow integration
-
-**src/recruitment/crew.py:**
-- CrewAI crew assembly
-- YAML configuration loading
-- Agent and task creation
-- Sequential process orchestration
-- Placeholder for full implementation
-
-**src/recruitment/tools/__init__.py:**
-- Tool package initialization
-- Tool imports
-
-**src/recruitment/tools/custom_tools.py:**
-- CandidateSearchTool placeholder
-- CandidateScoringTool placeholder
-- OutreachTemplateTool placeholder
-- Tool registry
-
-**tests/__init__.py:**
-- Test package initialization
-
-**tests/test_basic.py:**
-- Basic structure tests
-- Configuration file tests
-- Import tests
-
----
-
-## 2. Verification Results
-
-### 2.1 Dependency Installation ✅
-
-**Command:** `uv sync`
-
-**Result:** SUCCESS
-- Resolved 169 packages
-- Installed 147 packages
-- All dependencies installed without errors
-- Virtual environment created at `.venv/`
-
-**Key Packages Installed:**
-- crewai==1.15.1
-- crewai-tools==1.15.1
-- pyyaml==6.0.3
-- python-dotenv==1.2.2
-- rich==14.3.4
-- pytest==9.1.1
-- pytest-asyncio==1.4.0
-
-### 2.2 Test Execution ✅
-
-**Command:** `uv run pytest`
-
-**Result:** SUCCESS
-- 6 tests passed
-- All tests completed in 0.04s
-- Test coverage verified
-
-**Tests Executed:**
-1. `test_project_structure` - PASSED
-2. `test_configuration_files` - PASSED
-3. `test_environment_file` - PASSED
-4. `test_pyproject_toml` - PASSED
-5. `test_readme` - PASSED
-6. `test_imports` - PASSED
-
-### 2.3 CLI Entry Point ✅
-
-**Command:** `uv run recruitment --help`
-
-**Result:** SUCCESS
-- CLI entry point working
-- Rich console output displayed
-- Interactive prompts functional
-- Ready for workflow integration
-
----
-
-## 3. Completion Criteria Met
-
-### 3.1 `uv sync` installs all dependencies without errors ✅
-
-- Dependency resolution successful
-- 147 packages installed
-- No installation errors
-- Virtual environment properly configured
-
-### 3.2 Project structure matches PRD §6.3 ✅
-
-- Directory structure created exactly as specified
-- All required files present
-- Proper file organization
-- Follows Python best practices
-
-### 3.3 `.env.example` contains all required variables ✅
-
-- `OPENAI_API_KEY` - Required (API key for GLM-5.2 via https://api.iamhc.cn)
-- `SERPER_API_KEY` - Required
-- `LLM_MODEL` - Optional (default: glm-5.2)
-- `LLM_BASE_URL` - Optional (default: https://api.iamhc.cn/v1 for GLM-5.2; override for other OpenAI-compatible endpoints)
-- Additional optional variables included
-
-### 3.4 README includes setup steps (< 15 minutes per PRD §5.4) ✅
-
-- Quick start guide with 4 steps
-- Estimated setup time: < 15 minutes
-- Clear prerequisites
-- Step-by-step instructions
-- Troubleshooting section
-
----
-
-## 4. Next Steps for Downstream Agents
-
-### 4.1 @frontend.eng (Step 2: Frontend Development)
-
-**Ready to Start:**
-- Project structure is in place
-- CLI entry point is functional
-- Input validation framework exists
-- Rich console integration working
-
-**Tasks:**
-1. Implement full CLI interface in `main.py`
-2. Add input validation logic
-3. Implement progress display
-4. Add report formatting
-
-**Dependencies Met:**
-- ✅ Project scaffolding complete
-- ✅ Dependencies installed
-- ✅ Entry point working
-
-### 4.2 @backend.eng (Step 3: Backend Development)
-
-**Ready to Start:**
-- CrewAI framework installed and configured
-- Agent and task YAML files created
-- Crew assembly structure in place
-- Tool placeholders ready for implementation
-
-**Tasks:**
-1. Implement full agent logic in `crew.py`
-2. Implement task orchestration
-3. Add tool implementations in `custom_tools.py`
-4. Integrate with SerperDev and ScrapeWebsite tools
-
-**Dependencies Met:**
-- ✅ CrewAI dependencies installed
-- ✅ YAML configurations created
-- ✅ Crew assembly structure ready
-
-### 4.3 @integration.eng (Step 4: Integration)
-
-**Ready to Start:**
-- CLI interface ready for integration
-- CrewAI workflow ready for connection
-- Report generation framework in place
-
-**Tasks:**
-1. Connect CLI input to CrewAI workflow
-2. Implement end-to-end workflow
-3. Add error handling and retry logic
-4. Test complete workflow execution
-
-**Dependencies Met:**
-- ✅ CLI interface functional
-- ✅ CrewAI framework ready
-- ✅ Configuration system in place
-
-### 4.4 @qa.eng (Step 5: Quality Assurance)
-
-**Ready to Start:**
-- Test framework configured
-- Basic tests passing
-- Project structure verified
-- Ready for comprehensive testing
-
-**Tasks:**
-1. Expand unit test coverage
-2. Add integration tests
-3. Implement end-to-end tests
-4. Add performance benchmarks
-5. Set up code quality tools
-
-**Dependencies Met:**
-- ✅ pytest installed and configured
-- ✅ Basic tests passing
-- ✅ Project structure verified
-
----
-
-## 5. Files Created/Modified
-
-### 5.1 Files Created
+### `scripts/`
 
 | File | Purpose | Status |
 |------|---------|--------|
-| `pyproject.toml` | Project configuration and dependencies | ✅ Created |
-| `.env.example` | Environment variable template | ✅ Created |
-| `.gitignore` | Git ignore patterns | ✅ Created |
-| `README.md` | Project documentation | ✅ Created |
-| `src/recruitment/__init__.py` | Package initialization | ✅ Created |
-| `src/recruitment/main.py` | CLI entry point | ✅ Created |
-| `src/recruitment/crew.py` | CrewAI crew assembly | ✅ Created |
-| `src/recruitment/config/agents.yaml` | Agent definitions | ✅ Created |
-| `src/recruitment/config/tasks.yaml` | Task definitions | ✅ Created |
-| `src/recruitment/tools/__init__.py` | Tools package | ✅ Created |
-| `src/recruitment/tools/custom_tools.py` | Custom tools | ✅ Created |
-| `tests/__init__.py` | Test package | ✅ Created |
-| `tests/test_basic.py` | Basic tests | ✅ Created |
+| `run_recruitment_sse.py` | SSE-aware CLI wrapper for RecruitmentCrew. Emits structured JSON events to stdout. Supports `--sse`, `--input`, `--check-env` flags. | ✅ Importable (`uv run python ../scripts/run_recruitment_sse.py --help` works) |
+| `upgrade.py` | QA-04 reference script — lazy-init singleton pattern for RecruitmentCrew. Does **not** modify existing files. | ✅ Works |
 
-### 5.2 Files Modified
+### `.github/workflows/`
 
-| File | Modification | Status |
-|------|--------------|--------|
-| `project-context/2.build/architecture-plan.md` | Updated Step 1 status to COMPLETED | ✅ Updated |
+| File | Purpose |
+|------|---------|
+| `ci.yml` | GitHub Actions CI — Python: ruff, mypy, pytest. Node: npm ci, lint, tsc, build. SSE wrapper check. |
 
----
+### `nextjs-app/`
 
-## 6. Notes and Considerations
+#### Config files
 
-### 6.1 Build Backend Fix
+| File | Purpose |
+|------|---------|
+| `package.json` | Dependencies: next@16, react@19, @assistant-ui/react@0.14, @assistant-ui/react-ai-sdk@1.3, zustand@5, tailwindcss@4, typescript@6 |
+| `tsconfig.json` | TypeScript config with `@/*` path alias, bundler module resolution |
+| `next.config.ts` | Next.js config with increased body size limit |
+| `postcss.config.mjs` | PostCSS with `@tailwindcss/postcss` (Tailwind v4) |
+| `tailwind.config.ts` | Tailwind config with custom primary color palette |
+| `.gitignore` | Node-specific ignores |
 
-**Issue:** Initial `pyproject.toml` used incorrect build backend path.
+#### Source files
 
-**Solution:** Changed from `setuptools.backends._legacy:_Backend` to `setuptools.build_meta`.
+| File | Purpose | Status |
+|------|---------|--------|
+| `src/app/globals.css` | `@import "tailwindcss"` + base styles + assistant-ui overrides | ✅ |
+| `src/app/layout.tsx` | Root layout with header and container | ✅ |
+| `src/app/page.tsx` | Main chat page with assistant-ui primitives (ThreadPrimitive, MessagePrimitive, ComposerPrimitive) + stub ChatModelAdapter | ✅ |
+| `src/app/api/chat/route.ts` | POST /api/chat — SSE streaming endpoint. **Stub**: returns simulated SSE events | ⚠️ Stub |
+| `src/app/api/chat/status/route.ts` | GET /api/chat/status — workflow status check | ⚠️ Stub |
+| `src/app/api/setup/check/route.ts` | GET /api/setup/check — environment configuration check | ⚠️ Stub |
+| `src/app/api/setup/validate/route.ts` | POST /api/setup/validate — API key validation | ⚠️ Stub |
+| `src/components/job-description-form.tsx` | Structured JD input form with validation | ⚠️ Stub |
+| `src/components/agent-status-panel.tsx` | Real-time agent progress panel with SSE integration placeholder | ⚠️ Stub |
+| `src/components/setup-wizard.tsx` | First-launch wizard with API key/test connection UI | ⚠️ Stub |
+| `src/lib/store.ts` | Zustand store for chat state, SSE event handling, agent status | ⚠️ Stub |
+| `src/lib/sse-client.ts` | EventSource wrapper for SSE consumption | ⚠️ Stub |
 
-**Impact:** None - project builds successfully.
+**Key**: ✅ = functional, ⚠️ = placeholder/stub for engineers to implement
 
-### 6.2 Dev Dependencies
+## Verification Results
 
-**Note:** Dev dependencies (pytest, ruff, mypy) need to be installed separately with `uv pip install pytest pytest-asyncio`.
+### 1. `cd nextjs-app && npm install`
+```
+added 476 packages — ✅ No peer dep errors
+```
 
-**Reason:** uv sync with `--dev` flag didn't automatically install dev dependencies in this environment.
+### 2. `npx tsc --noEmit`
+```
+✅ Compiled with zero TypeScript errors
+```
 
-**Workaround:** Manual installation of test dependencies.
+### 3. `uv run python ../scripts/run_recruitment_sse.py --help`
+```
+✅ Help text displays correctly — wrapper is importable and functional
+```
 
-### 6.3 CLI Entry Point
+### 4. `uv run python ../scripts/upgrade.py --help`
+```
+✅ Help text displays correctly
+```
 
-**Status:** Working but requires user input.
+## Architecture Decisions
 
-**Note:** The `uv run recruitment` command launches the interactive CLI.
+1. **Strangler Fig**: All v0.2.0 files are **new additions**. No existing Python files in `recruitment-assistant/` were modified.
 
-**Next:** @frontend.eng will enhance the CLI interface in Step 2.
+2. **assistant-ui API version**: Using `@assistant-ui/react@0.14.x` (latest). The API uses:
+   - `useLocalRuntime(chatModelAdapter)` — first arg is ChatModelAdapter (not options object)
+   - `ThreadPrimitive`, `MessagePrimitive`, `MessagePartPrimitive`, `ComposerPrimitive` — composable primitives
+   - `ExternalThread` — controlled thread component (available but not used in stub)
+   - Render function pattern: `<ThreadPrimitive.Messages>{() => <MessagePrimitive.Root>...</>}</ThreadPrimitive.Messages>`
 
----
+3. **SSE Protocol**: Python → stdout JSON lines → Next.js API route parses → browser receives SSE `event:` + `data:` lines via `EventSource` (or fetch-based reader).
 
-## 7. Architecture Plan Status Update
+4. **Tailwind CSS v4**: Uses `@import "tailwindcss"` syntax (not `@tailwind` directives). PostCSS plugin `@tailwindcss/postcss`.
 
-### Step 1: Environment Setup
+## Next Steps for Implementation Agents
 
-| Field | Value |
-|-------|-------|
-| **Status** | COMPLETED |
-| **Start Date** | July 8, 2026 |
-| **End Date** | July 8, 2026 |
-| **Owner** | @project.mgr |
-| **Notes** | All tasks completed successfully. Project ready for downstream agents. |
+### @frontend.eng — Frontend Engineer
 
-### Updated Status Table
+1. **Wire `page.tsx` ChatModelAdapter** to POST to `/api/chat` and consume SSE stream
+2. **Implement `sse-client.ts`** — real fetch() SSE parsing with reconnection logic
+3. **Implement `store.ts`** — connect Zustand store to SSE events
+4. **Implement `job-description-form.tsx`** — wire form submission to trigger workflow
+5. **Implement `agent-status-panel.tsx`** — real-time agent progress from SSE events
+6. **Implement `setup-wizard.tsx`** — API key validation flow using `/api/setup/*`
+7. **Style refinement** — polish the chat UI, responsive layout, dark mode
+8. **Component tests** — add unit tests for components
 
-| Step | Description | Owner | Status | Start Date | End Date | Notes |
-|------|-------------|-------|--------|------------|----------|-------|
-| 0 | Architecture Definition | @system.arch | COMPLETED | Jul 7, 2026 | Jul 7, 2026 | SAD and Architecture Plan created |
-| 1 | Environment Setup | @project.mgr | **COMPLETED** | **Jul 8, 2026** | **Jul 8, 2026** | **PRD §8.1, M1: Day 1-2** |
-| 2 | Frontend Development (CLI) | @frontend.eng | PENDING | — | — | PRD §8.1, M4: Day 9-10 |
-| 3 | Backend Development (CrewAI) | @backend.eng | PENDING | — | — | PRD §8.1, M2+M3: Day 3-8 |
-| 4 | Integration | @integration.eng | PENDING | — | — | PRD §8.1, M3-M4 |
-| 5 | Quality Assurance | @qa.eng | PENDING | — | — | PRD §8.1, M5: Day 11-14 |
-| 6 | Local MVP Launch | @project.mgr | PENDING | — | — | PRD §8.1, M5: Day 14 |
-| 7 | Prepare for Next Phase | @project.mgr | PENDING | — | — | PRD §8.1, M5: Day 14 |
+### @backend.eng — Backend Engineer
 
----
+1. **Implement `/api/chat/route.ts`** — real subprocess spawning:
+   ```typescript
+   const proc = spawn("uv", ["run", "python", "../scripts/run_recruitment_sse.py", "--sse", "--input", tmpfile]);
+   ```
+   - Write job_requirements to temp JSON file
+   - Read stdout line-by-line, parse JSON, emit SSE events
+   - Handle client disconnect with `proc.kill()`
+   - Clean up temp files
 
-## 8. Success Metrics Achieved
+2. **Implement `/api/chat/status/route.ts`** — track workflow state in memory/Redis
+3. **Implement `/api/setup/check/route.ts`** — read `.env` file to check config
+4. **Implement `/api/setup/validate/route.ts`** — test API key against LLM provider
+5. **Implement `run_recruitment_sse.py`** — replace simulated agent progress with real CrewAI callbacks (the SSE wrapper currently has `time.sleep(0.3)` placeholders for the 4 agents; replace with actual `crew.kickoff()` with proper event emission)
+6. **Implement `upgrade.py`** — integrate singleton pattern into `main.py` (QA-04)
+7. **Add test coverage** — tests for the SSE wrapper, API routes (mocked subprocess)
 
-### 8.1 Setup Time
+### @integration.eng — Integration Engineer
 
-**Target:** < 15 minutes (PRD §5.4)  
-**Actual:** < 10 minutes  
-**Status:** ✅ ACHIEVED
+1. **End-to-end flow**: Verify that POST `/api/chat` → subprocess spawn → SSE stream → browser receives events
+2. **Error handling**: Test subprocess failure, cleanup on disconnect, temp file cleanup
+3. **CI pipeline**: Verify GitHub Actions workflow runs for both Python and Node
 
-### 8.2 Test Coverage
+### @qa.eng — QA Engineer
 
-**Target:** Basic tests passing (Step 1 scope)  
-**Actual:** 6/6 tests passing (100%)  
-**Status:** ✅ ACHIEVED
-
-### 8.3 Dependency Installation
-
-**Target:** All dependencies installed without errors  
-**Actual:** 147 packages installed successfully  
-**Status:** ✅ ACHIEVED
-
-### 8.4 Project Structure
-
-**Target:** Match PRD §6.3 exactly  
-**Actual:** Complete match with all files  
-**Status:** ✅ ACHIEVED
-
----
-
-*This setup.md document records the completion of Step 1: Environment Setup for the Recruitment Assistant project. The project is now ready for downstream agents to begin implementation.*
+1. **Verify QA-01 fix**: Real SSE streaming replaces simulated spinner
+2. **Verify QA-02 fix**: Setup wizard detects missing env vars and guides configuration
+3. **Verify QA-03**: No deprecation warnings from CrewAI in SSE wrapper output
+4. **Verify QA-04**: Single RecruitmentCrew initialization via subprocess
+5. **Regression**: CLI still works via `uv run recruitment`

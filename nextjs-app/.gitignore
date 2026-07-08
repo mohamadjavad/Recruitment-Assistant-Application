@@ -1,0 +1,17 @@
+# ── Dependencies ──────────────────────────────────────────────
+node_modules/
+
+# ── Build output ──────────────────────────────────────────────
+.next/
+out/
+dist/
+
+# ── TypeScript ────────────────────────────────────────────────
+*.tsbuildinfo
+next-env.d.ts
+
+# ── Environment ───────────────────────────────────────────────
+.env
+.env.local
+.env.production.local
+.env.development.local

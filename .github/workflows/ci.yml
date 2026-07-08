@@ -1,0 +1,96 @@
+# ══════════════════════════════════════════════════════════════
+# CI Pipeline — Recruitment Assistant (v0.2.0)
+# ══════════════════════════════════════════════════════════════
+# Runs on push/PR to main:
+#   - Python: ruff check, mypy type check, pytest with coverage
+#   - Node: npm ci, npm run lint, npm run build
+# ══════════════════════════════════════════════════════════════
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  python:
+    name: Python Lint & Test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: recruitment-assistant
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: uv sync --all-extras
+
+      - name: Ruff check
+        run: uv run ruff check src/ tests/
+
+      - name: mypy type check
+        run: uv run mypy src/
+
+      - name: Pytest with coverage
+        run: uv run pytest tests/ -v --cov=recruitment --cov-report=term-missing
+
+  node:
+    name: Node Lint & Build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: nextjs-app
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: nextjs-app/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: TypeScript check
+        run: npx tsc --noEmit
+
+      - name: Build
+        run: npm run build
+
+  sse-wrapper:
+    name: Python SSE Wrapper Check
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: recruitment-assistant
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: uv sync --all-extras
+
+      - name: Verify SSE wrapper is importable
+        run: uv run python ../scripts/run_recruitment_sse.py --help
+
+      - name: Verify upgrade script is importable
+        run: uv run python ../scripts/upgrade.py --help

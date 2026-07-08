@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+/* ── Base styles ───────────────────────────────────────────── */
+@layer base {
+  :root {
+    --background: #ffffff;
+    --foreground: #171717;
+    --muted: #f5f5f5;
+    --muted-foreground: #737373;
+    --border: #e5e5e5;
+    --radius: 0.5rem;
+  }
+
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+}
+
+/* ── assistant-ui overrides ────────────────────────────────── */
+.thread-root {
+  height: calc(100vh - 4rem);
+}
+
+.composer-input {
+  min-height: 3rem;
+  max-height: 12rem;
+}
+
+/* ── Utility classes ───────────────────────────────────────── */
+@utility container {
+  margin-inline: auto;
+  padding-inline: 1rem;
+}

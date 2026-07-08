@@ -71,3 +71,17 @@ Thumbs.db
 # CrewAI specific
 .crew/
 crew_output/
+
+# ── Node.js / Next.js (v0.2.0+) ───────────────────────────────
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+next-env.d.ts
+nextjs-app/.next/
+nextjs-app/node_modules/
+nextjs-app/out/
+
+# Environment files (root + nextjs)
+.env.local
+.env.*.local
