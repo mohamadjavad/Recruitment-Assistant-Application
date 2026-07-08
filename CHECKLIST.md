@@ -8,9 +8,9 @@ This checklist guides you step-by-step through running AAMAD from Phase 1 (Defin
 
 - [ ] Open a Cursor agent chat as `@product-mgr`.
 - [ ] Run one of:
-    - [ ] `*create-mrd` — Generate Market Research Document at project-context/1.define/mrd.md using .cursor/templates/mrd-template.md.
-    - [ ] `*create-prd` — Generate Product Requirements Document at project-context/1.define/prd.md using .cursor/templates/prd-template.md.
-    - [ ] `*create-context` — Generate both MRD and PRD with context summary for handoff.
+  - [ ] `*create-mrd` — Generate Market Research Document at project-context/1.define/mrd.md using .cursor/templates/mrd-template.md.
+  - [ ] `*create-prd` — Generate Product Requirements Document at project-context/1.define/prd.md using .cursor/templates/prd-template.md.
+  - [ ] `*create-context` — Generate both MRD and PRD with context summary for handoff.
 - [ ] Validate completeness: market analysis, user personas, feature requirements, success metrics, and business goals.
 - [ ] Record assumptions and open questions in artifacts for downstream resolution.
 - [ ] Approve context boundaries and artifacts for technical build phase.
@@ -40,8 +40,8 @@ This checklist guides you step-by-step through running AAMAD from Phase 1 (Defin
 
 - [ ] Open a Cursor agent chat as `@system.arch`.
 - [ ] Run one of:
-    - [ ] `*create-sad` — Generate full SAD at project-context/1.define/sad.md using .cursor/templates/sad-template.md.
-    - [ ] `*create-sad --mvp` — Generate a lean MVP SAD, deferring nonessential components and NFRs; output to project-context/1.define/sad.md.
+  - [ ] `*create-sad` — Generate full SAD at project-context/1.define/sad.md using .cursor/templates/sad-template.md.
+  - [ ] `*create-sad --mvp` — Generate a lean MVP SAD, deferring nonessential components and NFRs; output to project-context/1.define/sad.md.
 - [ ] Validate SAD completeness: stakeholders/concerns, views, quality attributes, decisions, constraints, and risks.
 - [ ] Record assumptions and open questions in sad.md for downstream resolution.
 - [ ] Record resolved `AAMAD_TARGET_RUNTIME` in the sad.md Audit section.
@@ -116,6 +116,4 @@ This checklist guides you step-by-step through running AAMAD from Phase 1 (Defin
 
 ---
 
-> For detailed guidelines and troubleshooting, see README.md and documentation in `.cursor/templates` and `.cursor/rules`.
-
-
+> For detailed guidelines and troubleshooting, see README.md
