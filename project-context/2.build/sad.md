@@ -18,7 +18,7 @@ The following principles guide every architectural decision in this MVP. They ar
 
 1. **Customer Feedback First**: The architecture must enable rapid iteration based on recruiter feedback. The CLI-first approach (PRD §2.1) allows deploying the core workflow immediately without UI development overhead. All agent outputs are structured and auditable, enabling recruiters to evaluate quality from day one.
 
-2. **Modern LLM Interface**: The system leverages CrewAI's proven agent orchestration (MRD §5) with OpenAI GPT-4o as the default LLM, while supporting local LLM alternatives (Ollama, LM Studio) for privacy-sensitive deployments (PRD §1.3, Principle 5). The architecture is LLM-agnostic through LiteLLM compatibility.
+2. **Modern LLM Interface**: The system leverages CrewAI's proven agent orchestration (MRD §5) with GLM-5.2 as the default LLM (via OpenAI-compatible endpoint), while supporting local LLM alternatives (Ollama, LM Studio) for privacy-sensitive deployments (PRD §1.3, Principle 5). The architecture is LLM-agnostic through LiteLLM compatibility.
 
 3. **Automated Deployment**: The CLI application is self-contained Python requiring only `uv` for dependency management. No containerization or cloud infrastructure is needed for MVP. The architecture avoids unnecessary operational complexity.
 
@@ -56,9 +56,9 @@ The following principles guide every architectural decision in this MVP. They ar
 - **Trade-off**: No conversation history, no multi-session support, no analytics.
 - **Source**: PRD §6.3 (Project Structure)
 
-**Decision 4: OpenAI GPT-4o as Default LLM**  
-- **Rationale**: The CrewAI recruitment example uses OpenAI. GPT-4o provides strong reasoning for candidate evaluation. Local LLM support via Ollama is available as an alternative (PRD §4.8, US-07).
-- **Trade-off**: API costs per execution. Users without OpenAI access must configure an alternative.
+**Decision 4: GLM-5.2 as Default LLM (OpenAI-Compatible)**  
+- **Rationale**: The project uses GLM-5.2 via an OpenAI-compatible API endpoint (https://api.iamhc.cn) as the default LLM. This provides strong reasoning for candidate evaluation at competitive cost. Local LLM support via Ollama is available as an alternative (PRD §4.8, US-07). LiteLLM compatibility is preserved for provider switching.
+- **Trade-off**: API costs per execution. Users without access to the GLM-5.2 endpoint must configure an alternative LLM provider.
 - **Source**: PRD §6.2, PRD §10 (Assumption 4)
 
 **Decision 5: SerperDevTool for Web Search**  
@@ -386,10 +386,10 @@ All data is file-based:
 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
-| OPENAI_API_KEY | Yes (if using OpenAI) | — | OpenAI API key |
+| OPENAI_API_KEY | Yes (if using OpenAI-compatible API) | — | API key for OpenAI-compatible endpoint (e.g., https://api.iamhc.cn) |
 | SERPER_API_KEY | Yes | — | Serper.dev API key |
-| LLM_MODEL | No | gpt-4o | LLM model identifier |
-| LLM_BASE_URL | No | — | Custom LLM endpoint (Ollama, etc.) |
+| LLM_MODEL | No | glm-5.2 | LLM model identifier |
+| LLM_BASE_URL | No | https://api.iamhc.cn | Custom LLM endpoint (OpenAI-compatible, Ollama, etc.) |
 
 ---
 
@@ -413,7 +413,7 @@ No CI/CD pipeline is required for MVP. The application runs locally via `uv run 
 - Python runtime: >=3.10, <3.14
 - Memory: 4 GB minimum (LLM inference + agent execution)
 - Storage: 100 MB for application + dependencies
-- Network: Internet access for OpenAI API, Serper.dev API
+- Network: Internet access for LLM API (GLM-5.2 / OpenAI-compatible), Serper.dev API
 
 **No containerization or cloud infrastructure for MVP.**
 
@@ -505,7 +505,7 @@ No CI/CD pipeline is required for MVP. The application runs locally via `uv run 
 
 | Integration | API | Authentication | Rate Limits | Source |
 |-------------|-----|----------------|-------------|--------|
-| OpenAI | REST | API Key | 10K RPM (GPT-4o) | PRD §9.1 |
+| GLM-5.2 (via OpenAI-compatible API) | REST | API Key | Provider-dependent | PRD §9.1 |
 | Serper.dev | REST | API Key | 2,500 queries/month (free) | PRD §9.1 |
 | Web Scraping | HTTP | None | Respect robots.txt | PRD §4.3 |
 
@@ -683,7 +683,7 @@ tests/
 - Feature requests tracked for post-MVP
 
 **Feature Flags**:
-- LLM provider selection (OpenAI vs. Ollama)
+- LLM provider selection (GLM-5.2 / OpenAI-compatible vs. Ollama)
 - Verbose logging toggle
 - Report format options (markdown vs. JSON)
 
@@ -719,7 +719,7 @@ tests/
 1. **AAMAD_TARGET_RUNTIME = crewai**: CrewAI is the primary runtime framework (PRD §10, MRD §10).
 2. **MVP is CLI-first**: Web UI is explicitly deferred to v0.2.0 (PRD §2.1, Assumption 2).
 3. **Single-user MVP**: No multi-tenancy or authentication (PRD §2.1, Assumption 3).
-4. **GPT-4o default**: Users must have OpenAI API access or configure alternative LLM (PRD §10, Assumption 4).
+4. **GLM-5.2 default**: Users must have access to the GLM-5.2 API endpoint (https://api.iamhc.cn) or configure an alternative LLM (PRD §10, Assumption 4).
 5. **Serper.dev required**: Web search is essential for candidate research (PRD §10, Assumption 5).
 6. **No LinkedIn scraping**: Production LinkedIn scraping violates ToS; MVP uses compliant sources only (PRD §10, Assumption 6).
 7. **Sequential process**: Hierarchical process with manager agent is deferred (PRD §10, Assumption 7).
@@ -735,8 +735,8 @@ tests/
    - *Decision*: Deferred to v0.2.0 (PRD §13, Open Question 1).
    - *Impact*: Reduces scope, accelerates MVP delivery.
 
-2. **LLM Model Selection**: Should we support multiple LLM providers in MVP or focus on OpenAI?
-   - *Decision*: Support OpenAI + Ollama in MVP; extend post-MVP (PRD §13, Open Question 2).
+2. **LLM Model Selection**: Should we support multiple LLM providers in MVP or focus on GLM-5.2?
+   - *Decision*: Support GLM-5.2 (OpenAI-compatible) + Ollama in MVP; extend post-MVP (PRD §13, Open Question 2).
    - *Impact*: LiteLLM compatibility enables provider switching without code changes.
 
 3. **Compliance Requirements**: What level of GDPR/EEOC compliance is required for MVP?

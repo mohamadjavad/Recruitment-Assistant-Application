@@ -43,7 +43,7 @@ The MVP is a **chat-based recruitment assistant** that accepts a job description
 - Outreach strategy and template generation
 - Final recruiter-ready report output
 - Configuration via YAML files
-- Support for OpenAI GPT-4o and local LLM alternatives
+- Support for GLM-5.2 (via OpenAI-compatible endpoint) and local LLM alternatives
 
 **Out of Scope (MVP):**
 - ATS integration (Greenhouse, Lever, Workday)
@@ -318,11 +318,11 @@ The MVP is a **chat-based recruitment assistant** that accepts a job description
 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
-| OPENAI_API_KEY | Yes (if using OpenAI) | — | OpenAI API key |
+| OPENAI_API_KEY | Yes (if using OpenAI-compatible API) | — | API key for OpenAI-compatible endpoint (e.g., https://api.iamhc.cn) |
 | SERPER_API_KEY | Yes | — | Serper.dev API key |
 | LI_AT | No | — | LinkedIn session cookie (demo only) |
-| LLM_MODEL | No | gpt-4o | LLM model identifier |
-| LLM_BASE_URL | No | — | Custom LLM endpoint (Ollama, etc.) |
+| LLM_MODEL | No | glm-5.2 | LLM model identifier |
+| LLM_BASE_URL | No | https://api.iamhc.cn | Custom LLM endpoint (OpenAI-compatible, Ollama, etc.) |
 
 ---
 
@@ -417,7 +417,7 @@ The MVP is a **chat-based recruitment assistant** that accepts a job description
 | Runtime Framework | CrewAI | >=1.15.1 |
 | Language | Python | >=3.10, <3.14 |
 | Dependency Manager | uv | Latest |
-| LLM Provider | OpenAI (GPT-4o) | Default |
+| LLM Provider | GLM-5.2 (via OpenAI-compatible endpoint) | Default |
 | LLM Alternative | Ollama / LM Studio | Supported |
 | Web Search | SerperDevTool | Via crewai_tools |
 | Web Scraping | ScrapeWebsiteTool | Via crewai_tools |
@@ -635,7 +635,7 @@ report_candidates_task:
 | Dependency | Type | Version | Notes |
 |------------|------|---------|-------|
 | CrewAI | Framework | >=1.15.1 | Core orchestration |
-| OpenAI API | LLM | GPT-4o | Default model |
+| GLM-5.2 (OpenAI-compatible API) | LLM | glm-5.2 | Default model |
 | Serper.dev | Web Search | API key required | Free tier available |
 | Python | Runtime | >=3.10, <3.14 | Required by CrewAI |
 
@@ -655,7 +655,7 @@ report_candidates_task:
 1. **AAMAD_TARGET_RUNTIME = crewai**: The system will use CrewAI as the primary runtime.
 2. **MVP is CLI-first**: Web UI is deferred to post-MVP to reduce scope.
 3. **Single-user MVP**: Multi-tenancy and authentication are post-MVP features.
-4. **GPT-4o default**: Users must have OpenAI API access or configure alternative LLM.
+4. **GLM-5.2 default**: Users must have access to the GLM-5.2 API endpoint (https://api.iamhc.cn) or configure an alternative LLM.
 5. **Serper.dev required**: Web search is essential for candidate research.
 6. **No LinkedIn scraping**: Production use of LinkedIn scraping violates ToS; MVP uses compliant sources only.
 7. **Sequential process**: Hierarchical process with manager agent is deferred to post-MVP.
@@ -702,8 +702,8 @@ report_candidates_task:
 1. **Web UI Priority**: Should the web chat UI be included in MVP or deferred?
    - *Recommendation:* Defer to v0.2.0; MVP focuses on CLI workflow.
 
-2. **LLM Model Selection**: Should we support multiple LLM providers in MVP or focus on OpenAI?
-   - *Recommendation:* Support OpenAI + Ollama in MVP; extend to other providers post-MVP.
+2. **LLM Model Selection**: Should we support multiple LLM providers in MVP or focus on GLM-5.2?
+   - *Recommendation:* Support GLM-5.2 (OpenAI-compatible) + Ollama in MVP; extend to other providers post-MVP.
 
 3. **Compliance Requirements**: What level of GDPR/EEOC compliance is required for MVP?
    - *Recommendation:* Document compliance gaps; address in v0.3.0+.

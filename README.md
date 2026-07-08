@@ -68,7 +68,7 @@ The MVP delivers a chat-based recruitment assistant with the following capabilit
 - **Outreach strategy generation** — Personalized outreach templates including initial contact, follow-up sequence, and interview invitation
 - **Recruiter-ready report output** — Comprehensive markdown report with candidate profiles, scores, outreach strategies, and methodology
 - **YAML configuration** — Agent roles, goals, backstories, and task definitions are configured via `agents.yaml` and `tasks.yaml`
-- **LLM flexibility** — Supports OpenAI GPT-4o (default) and local LLM alternatives via LiteLLM-compatible providers
+- **LLM flexibility** — Supports GLM-5.2 (default via OpenAI-compatible API) and local LLM alternatives via LiteLLM-compatible providers
 
 **Out of scope for MVP:** ATS integration, LinkedIn direct integration, multi-role hiring, analytics dashboard, user authentication, candidate database, email sending, video interview scheduling, mobile application.
 
@@ -144,10 +144,10 @@ candidate_report.md
 |-------------|---------|-------|
 | Python | >= 3.10, < 3.14 | Required by CrewAI |
 | uv | Latest | Package manager (recommended over pip) |
-| OpenAI API key | — | Required if using GPT-4o (default LLM) |
+| LLM API key | — | Required for GLM-5.2 (default LLM) or any OpenAI-compatible provider |
 | Serper.dev API key | — | Required for web search capability |
 
-For local LLM usage, install Ollama or LM Studio as an alternative to OpenAI.
+For local LLM usage, install Ollama or LM Studio as an alternative to the default GLM API.
 
 ### Installation
 
@@ -173,14 +173,14 @@ For local LLM usage, install Ollama or LM Studio as an alternative to OpenAI.
    Edit `.env` and set the required API keys:
 
    ```
-   OPENAI_API_KEY=your-openai-api-key
+   OPENAI_API_KEY=your-api-key-here
    SERPER_API_KEY=your-serper-api-key
    ```
 
-   For local LLM usage, set:
+   For alternative LLM usage (e.g., local), set:
 
    ```
-   LLM_BASE_URL=http://localhost:11434
+   LLM_BASE_URL=http://localhost:11434/v1
    LLM_MODEL=ollama/llama3
    ```
 
@@ -242,10 +242,10 @@ recruitment-assistant/
 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
-| `OPENAI_API_KEY` | Yes (if using OpenAI) | — | OpenAI API key |
+| `OPENAI_API_KEY` | Yes (if using default LLM) | — | API key for LLM provider (OpenAI-compatible) |
 | `SERPER_API_KEY` | Yes | — | Serper.dev API key |
-| `LLM_MODEL` | No | `gpt-4o` | LLM model identifier |
-| `LLM_BASE_URL` | No | — | Custom LLM endpoint (Ollama, LM Studio) |
+| `LLM_MODEL` | No | `glm-5.2` | LLM model identifier |
+| `LLM_BASE_URL` | No | `https://api.iamhc.cn` | Custom LLM endpoint (GLM, Ollama, LM Studio) |
 | `LI_AT` | No | — | LinkedIn session cookie (demo only) |
 
 ### Agent Configuration (`agents.yaml`)
@@ -277,7 +277,7 @@ Task descriptions and expected outputs are defined in `src/recruitment/config/ta
 | Runtime Framework | CrewAI | >= 1.15.1 |
 | Language | Python | >= 3.10, < 3.14 |
 | Dependency Manager | uv | Latest |
-| LLM Provider | OpenAI (GPT-4o) | Default |
+| LLM Provider | GLM-5.2 (OpenAI-compatible API) | Default |
 | LLM Alternative | Ollama / LM Studio | Supported |
 | Web Search | SerperDevTool | Via crewai_tools |
 | Web Scraping | ScrapeWebsiteTool | Via crewai_tools |
